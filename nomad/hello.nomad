@@ -1,19 +1,24 @@
-job "hello" {
+job "cloudops-app" {
   datacenters = ["dc1"]
-  type = "service"
 
-  group "hello-group" {
-    task "hello-task" {
-      driver = "raw_exec"
+  group "app" {
+    task "web" {
+      driver = "docker"
 
       config {
-        command = "python"
-        args    = ["C:\\Users\\mallu\\Desktop\\Project Intern\\devops-intern-final\\hello.py"]
+        image = "cloudops-app"
+        ports = ["http"]
       }
 
       resources {
-        cpu    = 100
-        memory = 128
+        cpu    = 500
+        memory = 256
+      }
+
+      network {
+        port "http" {
+          static = 5000
+        }
       }
     }
   }
